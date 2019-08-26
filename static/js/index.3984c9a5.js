@@ -25,7 +25,7 @@
         i = [];
 
     function r(e) {
-        return "static/js/" + ({
+        return c.p + "static/js/" + ({
             "pages-index-detail": "pages-index-detail",
             "pages-index-index": "pages-index-index",
             "pages-login-login": "pages-login-login",
@@ -112,7 +112,7 @@
         return c.d(n, "a", n), n
     }, c.o = function(e, n) {
         return Object.prototype.hasOwnProperty.call(e, n)
-    }, c.p = "/fphc/demo/minipro/wx/", c.oe = function(e) {
+    }, c.p = "/", c.oe = function(e) {
         throw console.error(e), e
     };
     var u = window["webpackJsonp"] = window["webpackJsonp"] || [],
