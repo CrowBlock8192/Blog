@@ -1,0 +1,820 @@
+<html>
+<head>
+<meta charset="utf-8">
+<title>ECharts china_map</title>
+<script src="./echarts3/jquery-1.10.2.min.js" type="text/javascript"></script>
+<script src="./echarts3/echarts.js" type="text/javascript"></script>
+<script src="./echarts3/macarons.js" type="text/javascript"></script>
+<script src="./echarts3/shine.js" type="text/javascript"></script>
+<script src="./echarts3/mapdata/js/china.js" type="text/javascript"></script>
+<style>
+    html{width:100%;height:100%;margin:0;padding:0;}
+	body{width:90%;height:auto;margin:10px auto;padding:0;background-color: #F3F3F4;}
+	img{top: 50%;left: 50%;margin-left: 32px;margin-top: 32px;}
+	.zb_div_firstrow{width:100%;height:350px;margin:10px 0 0;padding:0;}
+	.zb_div{width:100%;height:550px;margin:10px 0 0;padding:0;}
+	.zb_div_two{width:100%;height:400px;margin:10px 0 0;padding:0;}
+	.zb_col_left{width:31%;height:100%;margin:0 2% 0 1.5%;padding:0;background-color: #FFF;float:left;display:inline;}
+	.zb_col_center{width:31%;height:100%;margin:0 2% 0 0;padding:0;background-color: #FFF;float:left;display:inline;}
+	.zb_col_right{width:31%;height:100%;margin:0 1.5% 0 0;padding:0;background-color: #FFF;float:left;display:inline;}
+	.zb_col_left_two{width:47%;height:100%;margin:0 3% 0 1.5%;padding:0;background-color: #FFF;float:left;display:inline;}
+	.zb_col_right_two{width:47%;height:100%;margin:0 1.5% 0 0;padding:0;background-color: #FFF;float:left;display:inline;}
+	.zb_title{height: 39px;text-align: center;font-size: 18px;line-height: 39px;border-bottom: solid 1px #E3E4E7;}
+    .zb_content{height: 254px;text-align: center;font-size: 18px;line-height: 249px;border-bottom: solid 1px #E3E4E7;}
+    .zb_content_three{height: 169px;text-align: center;font-size: 18px;line-height: 169px;border-bottom: solid 1px #E3E4E7;}
+    .zb_chart{width:50%;height:100%;float:left;display:inline;}
+    .zb_text{width:50%;height:100%;float:left;display:inline;}
+    .zb_table{width:100%;height:100%;}
+    .tr_top{width:100%;height:20%;vertical-align: top;font-size: 20px;font-weight: bolder;text-align:right;}
+    .tr_meddle{width:100%;height:30%;vertical-align: bottom;font-size: 18px;}
+    .tr_bottom{width:100%;height:50%;vertical-align: top;font-size: 18px;}
+    .td_c1{width:width:33%;text-align:right;}
+    .td_c2{width:width:33%;text-align:left;}
+    .td_c3{width:width:33%;text-align:left;}
+    .data_value{color:red;}
+</style>
+</head>
+<body>
+    <!-- 第一行 -->
+    <div class="zb_div_firstrow">
+        <div class="zb_col_left" id="yszx"></div>
+        <div class="zb_col_center" id="fyzc"></div>
+        <div class="zb_col_right" id="dqwszcjg"></div>
+    </div>
+    
+    <!-- 第二行 -->
+    <div class="zb_div">
+        <div class="zb_col_left">
+            <div class="zb_title">效率指标</div>
+            <div class="zb_content">
+                <div class="zb_chart" id="pjzyr"></div>
+                <div class="zb_text">
+                    <table class="zb_table">
+                        <tr class="tr_top"><td class="td_c1"></td><td class="td_c2"></td><td  class="td_c3">平均住院日</td></tr>
+                        <tr class="tr_meddle"><td id="td_value" class="td_c1 data_value">3.6</td><td class="td_c2">天</td><td class="td_c3"></td></tr>
+                        <tr class="tr_bottom"><td class="td_c1">同比下降</td><td class="td_c2 data_value">1.1</td><td class="td_c3">%</td></tr>
+                    </table>
+                </div>
+            </div>
+            <div class="zb_content">
+                <div class="zb_chart" id="pjfy"></div>
+                <div class="zb_text">
+                    <table class="zb_table">
+                        <tr class="tr_top"><td class="td_c1"></td><td class="td_c2"></td><td  class="td_c3">平均费用</td></tr>
+                        <tr class="tr_meddle"><td id="td_value" class="td_c1 data_value">4478</td><td class="td_c2">元</td><td class="td_c3"></td></tr>
+                        <tr class="tr_bottom"><td class="td_c1">同比下降</td><td class="td_c2 data_value">0.6</td><td class="td_c3">%</td></tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        
+        <div class="zb_col_center">
+            <div class="zb_title">能力指标</div>
+            <div class="zb_content_three">
+                <div class="zb_chart" id="dfxswl1"><img src="./png/column.png"/></div>
+                <div class="zb_text">
+                    <table class="zb_table">
+                        <tr class="tr_top"><td class="td_c1"></td><td class="td_c2"></td><td  class="td_c3">总权重</td></tr>
+                        <tr class="tr_meddle"><td id="td_value" class="td_c1 data_value">42839</td><td class="td_c2"></td><td class="td_c3"></td></tr>
+                        <tr class="tr_bottom"><td class="td_c1">同比增长</td><td class="td_c2 data_value">1.4</td><td class="td_c3">%</td></tr>
+                    </table>
+                </div>
+            </div>
+            <div class="zb_content_three">
+                <div class="zb_chart" id="gfxswl1"><img src="./png/coin.png"/></div>
+                <div class="zb_text">
+                    <table class="zb_table">
+                        <tr class="tr_top"><td class="td_c1"></td><td class="td_c2"></td><td  class="td_c3">CMI值</td></tr>
+                        <tr class="tr_meddle"><td id="td_value" class="td_c1 data_value">1.35</td><td class="td_c2"></td><td class="td_c3"></td></tr>
+                        <tr class="tr_bottom"><td class="td_c1">同比增长</td><td class="td_c2 data_value">4.7</td><td class="td_c3">%</td></tr>
+                    </table>
+                </div>
+            </div>
+            <div class="zb_content_three">
+                <div class="zb_chart" id="lzzryl1"><img src="./png/bfb.png"/></div>
+                <div class="zb_text">
+                    <table class="zb_table">
+                        <tr class="tr_top"><td class="td_c1"></td><td class="td_c2"></td><td  class="td_c3">组数</td></tr>
+                        <tr class="tr_meddle"><td id="td_value" class="td_c1 data_value">648</td><td class="td_c2"></td><td class="td_c3"></td></tr>
+                        <tr class="tr_bottom"><td class="td_c1">同比增长</td><td class="td_c2 data_value">5.1</td><td class="td_c3">%</td></tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        
+        <div class="zb_col_right">
+            <div class="zb_title">质量安全指标</div>
+            <div class="zb_content_three">
+                <div class="zb_chart" id="dfxswl"></div>
+                <div class="zb_text">
+                    <table class="zb_table">
+                        <tr class="tr_top"><td class="td_c1"></td><td class="td_c2"></td><td  class="td_c3">低风险死亡率</td></tr>
+                        <tr class="tr_meddle"><td id="td_value" class="td_c1 data_value">0.02</td><td class="td_c2">%</td><td class="td_c3"></td></tr>
+                        <tr class="tr_bottom"><td class="td_c1"></td><td class="td_c2 data_value"></td><td class="td_c3"></td></tr>
+                    </table>
+                </div>
+            </div>
+            <div class="zb_content_three">
+                <div class="zb_chart" id="gfxswl"></div>
+                <div class="zb_text">
+                    <table class="zb_table">
+                        <tr class="tr_top"><td class="td_c1"></td><td class="td_c2"></td><td  class="td_c3">高风险死亡率</td></tr>
+                        <tr class="tr_meddle"><td id="td_value" class="td_c1 data_value">1.52</td><td class="td_c2">%</td><td class="td_c3"></td></tr>
+                        <tr class="tr_bottom"><td class="td_c1"></td><td class="td_c2 data_value"></td><td class="td_c3"></td></tr>
+                    </table>
+                </div>
+            </div>
+            <div class="zb_content_three">
+                <div class="zb_chart" id="lzzryl"></div>
+                <div class="zb_text">
+                    <table class="zb_table">
+                        <tr class="tr_top"><td class="td_c1"></td><td class="td_c2"></td><td  class="td_c3">两周再入院率</td></tr>
+                        <tr class="tr_meddle"><td id="td_value" class="td_c1 data_value">2.42</td><td class="td_c2">%</td><td class="td_c3"></td></tr>
+                        <tr class="tr_bottom"><td class="td_c1"></td><td class="td_c2 data_value"></td><td class="td_c3"></td></tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 第三行 -->
+    <div class="zb_div_two">
+        <div class="zb_col_left_two" id="sjyxl"></div>
+        <div class="zb_col_right_two" id="dswltop10"></div>
+    </div>
+    
+    <!-- 第四行 -->
+    <div class="zb_div_two">
+        <div class="zb_col_left_two" id="dyyyczqk"></div>
+        <div class="zb_col_right_two" id="dqfwgd"></div>
+    </div>
+</body>
+</html>
+<script type="text/javascript">
+var pjzyr,pjfy,dfxswl,gfxswl,lzzryl,yszx,fyzc,dqwszcjg,sjyxl,dswltop10,dyyyczqk,dqfwgd;
+
+$(function() {
+	initYszx();
+	initFyzc();
+	initDqwszcjg();
+    initPjzyr();
+    initPjfy();
+    initDfxswl();
+    initGfxswl();
+    initLzzryl();
+    initSjyxl();
+    initdswltop10();
+    initdyyyczqk();
+    initdqfwgd();
+});
+
+function initPjzyr(){
+	var option = {
+		    tooltip : {
+		    	formatter: "{a} <br/>{c}天"
+		    },
+		    series: [
+		        {
+		            name: '平均住院日',
+		            type: 'gauge',
+	                radius:'85%',
+	                center: ["50%", "50%"],
+		            min:0,
+	                max:15,
+	                splitNumber:15,
+	                axisLine:{
+	                    lineStyle:{
+	                        width:2,
+	                        color : [[0.6,'red'],[ 0.8,'#48b'],[ 1,'#FF9900']], 
+	                    }
+	                },
+	                axisTick:{
+	                    length:4,        
+	                    lineStyle: {     
+	                        color: 'auto'
+	                    }
+	                },
+	                splitLine: {          
+	                    length:7,         
+	                    lineStyle: {    
+	                        color: 'auto'
+	                    }
+	                },
+	                pointer:{
+	                    width:5
+	                },
+	                detail: {textStyle:{fontSize:20}},
+	                data: [3.6]
+		        }
+		    ]
+		};
+	pjzyr = echarts.init(document.getElementById("pjzyr"),"${ECHART_SKIN}");
+	pjzyr.setOption(option);
+}
+
+function initPjfy(){
+	var option = {
+            tooltip : {
+            	formatter: "{a} <br/>{c}元"
+            },
+            series: [
+                {
+                    name: '平均费用',
+                    type: 'gauge',
+                    radius:'85%',
+                    center: ["50%", "50%"],
+                    min:0,
+                    max:6000,
+                    splitNumber:6,
+                    axisLine:{
+                        lineStyle:{
+                            width:2,
+                            color : [[0.6,'red'],[ 0.8,'#48b'],[ 1,'#FF9900']], 
+                        }
+                    },
+                    axisTick:{
+                        length:4,        
+                        lineStyle: {     
+                            color: 'auto'
+                        }
+                    },
+                    splitLine: {          
+                        length:7,         
+                        lineStyle: {    
+                            color: 'auto'
+                        }
+                    },
+                    pointer:{
+                        width:5
+                    },
+                    detail: {textStyle:{fontSize:20}},
+                    data: [4478]
+                }
+            ]
+        };
+	pjfy = echarts.init(document.getElementById("pjfy"),"${ECHART_SKIN}");
+	pjfy.setOption(option);
+}
+
+function initDfxswl(){
+    var option = {
+            tooltip : {
+                formatter: "{a} <br/>{c}%"
+            },
+            series: [
+                {
+                    name: '低风险死亡率',
+                    type: 'gauge',
+                    radius:'85%',
+                    center: ["50%", "50%"],
+                    min:0,
+                    max:0.1,
+                    splitNumber:5,
+                    axisLine:{
+                        lineStyle:{
+                            width:2,
+                            color : [[0.6,'red'],[ 0.8,'#48b'],[ 1,'#FF9900']], 
+                        }
+                    },
+                    axisTick:{
+                        length:4,        
+                        lineStyle: {     
+                            color: 'auto'
+                        }
+                    },
+                    splitLine: {          
+                        length:7,         
+                        lineStyle: {    
+                            color: 'auto'
+                        }
+                    },
+                    pointer:{
+                        width:5
+                    },
+                    detail: {textStyle:{fontSize:20}},
+                    data: [0.02]
+                }
+            ]
+        };
+    dfxswl = echarts.init(document.getElementById("dfxswl"),"${ECHART_SKIN}");
+    dfxswl.setOption(option);
+}
+
+function initGfxswl(){
+    var option = {
+            tooltip : {
+                formatter: "{a} <br/>{c}%"
+            },
+            series: [
+                {
+                    name: '高风险死亡率',
+                    type: 'gauge',
+                    radius:'85%',
+                    center: ["50%", "50%"],
+                    min:0,
+                    max:10,
+                    splitNumber:10,
+                    axisLine:{
+                        lineStyle:{
+                            width:2,
+                            color : [[0.6,'red'],[ 0.8,'#48b'],[ 1,'#FF9900']], 
+                        }
+                    },
+                    axisTick:{
+                        length:4,        
+                        lineStyle: {     
+                            color: 'auto'
+                        }
+                    },
+                    splitLine: {          
+                        length:7,         
+                        lineStyle: {    
+                            color: 'auto'
+                        }
+                    },
+                    pointer:{
+                        width:5
+                    },
+                    detail: {textStyle:{fontSize:20}},
+                    data: [1.52]
+                }
+            ]
+        };
+    gfxswl = echarts.init(document.getElementById("gfxswl"),"${ECHART_SKIN}");
+    gfxswl.setOption(option);
+}
+
+function initLzzryl(){
+    var option = {
+            tooltip : {
+                formatter: "{a} <br/>{c}%"
+            },
+            series: [
+                {
+                    name: '高风险死亡率',
+                    type: 'gauge',
+                    radius:'85%',
+                    center: ["50%", "50%"],
+                    min:0,
+                    max:10,
+                    splitNumber:10,
+                    axisLine:{
+                        lineStyle:{
+                            width:2,
+                            color : [[0.6,'red'],[ 0.8,'#48b'],[ 1,'#FF9900']], 
+                        }
+                    },
+                    axisTick:{
+                        length:4,        
+                        lineStyle: {     
+                            color: 'auto'
+                        }
+                    },
+                    splitLine: {          
+                        length:7,         
+                        lineStyle: {    
+                            color: 'auto'
+                        }
+                    },
+                    pointer:{
+                        width:5
+                    },
+                    detail: {textStyle:{fontSize:20}},
+                    data: [2.42]
+                }
+            ]
+        };
+    lzzryl = echarts.init(document.getElementById("lzzryl"),"${ECHART_SKIN}");
+    lzzryl.setOption(option);
+}
+
+function initYszx(){
+	var option = {
+        title: {
+            text: '医保基金本年度预算执行情况',
+            left: 'center'
+        },
+        legend: {
+            data: ['预算', '支出'],
+            bottom: 20
+        },
+        xAxis: {
+        	name:'月份',
+            axisTick: {
+                alignWithLabel: true
+            },
+            type: 'category',
+            data: [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+        },
+        yAxis: {
+            name: '预算执行情况(万元)',
+            type: 'value'
+        },
+        series: [
+            {
+                name: '预算',
+                type: 'line',
+                data: [6000, 12000, 16000, 21000, 27000, 32000, 37000, 42000, 47000, 52000, 58000, 61000, 65000]
+            },
+            {
+                name: '支出',
+                type: 'line',
+                data: [6000, 13000, 18000, 21500, 27500]
+            }
+        ]
+    };
+	yszx = echarts.init(document.getElementById("yszx"),"${ECHART_SKIN}");
+	yszx.setOption(option);
+}
+
+function initFyzc(){
+	var option = {
+        title: {
+            text: '费用组成',
+            left: 'center'
+        },
+        tooltip: {},
+        radar: {
+            // shape: 'circle',
+            name: {
+                textStyle: {
+                    color: '#fff',
+                    backgroundColor: '#999',
+                    borderRadius: 3,
+                    padding: [3, 5]
+                }
+            },
+            radius:'62%',
+            indicator: [
+                { name: '医疗', max: 6500 },
+                { name: '管理', max: 16000 },
+                { name: '耗材', max: 30000 },
+                { name: '药品', max: 38000 },
+                { name: '医技', max: 52000 },
+                { name: '护理', max: 25000 }
+            ]
+        },
+        series: [{
+            name: '预算 vs 开销（Budget vs spending）',
+            type: 'radar',
+            data: [
+                {
+                    value: [4300, 10000, 28000, 35000, 50000, 19000],
+                    name: '预算分配（Allocated Budget）'
+                },
+                {
+                    value: [5000, 14000, 28000, 31000, 42000, 21000],
+                    name: '实际开销（Actual Spending）'
+                }
+            ]
+        }]
+    };
+    fyzc = echarts.init(document.getElementById("fyzc"),"${ECHART_SKIN}");
+    fyzc.setOption(option);
+}
+
+function initDqwszcjg(){
+	var option = {
+        title:{
+                text:'地区卫生支出结构',
+                left: 'center'
+            },
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {            // 坐标轴指示器，坐标轴触发有效
+                type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+            }
+        },
+        legend: {
+            data: ['个人支出', '医保外支出', '医保支出（DRG）', '医保支出（非DRG）'],
+            top:25
+        },
+        grid: {
+            left: '10%',
+            right: '16%',
+            bottom: '6%',
+            containLabel: true
+        },
+        xAxis: {
+            type: 'value',
+            name:'百分比(%)'
+        },
+        yAxis: {
+            type: 'category',
+            data: ['2016', '2017', '2018', '标杆']
+        },
+        series: [
+            {
+                name: '个人支出',
+                type: 'bar',
+                stack: '总量',
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'insideRight'
+                    }
+                },
+                data: [45.00, 41.00, 37.00, 32.00]
+            },
+            {
+                name: '医保外支出',
+                type: 'bar',
+                stack: '总量',
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'insideRight'
+                    }
+                },
+                data: [8.00, 12.00, 15.00, 20.00]
+            },
+            {
+                name: '医保支出（DRG）',
+                type: 'bar',
+                stack: '总量',
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'insideRight'
+                    }
+                },
+                data: [37.00, 36.00, 33.00, 24.00]
+            },
+            {
+                name: '医保支出（非DRG）',
+                type: 'bar',
+                stack: '总量',
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'insideRight'
+                    }
+                },
+                data: [10.00, 11.00, 15.00, 24.00]
+            }
+        ],
+    };
+    dqwszcjg = echarts.init(document.getElementById("dqwszcjg"),"${ECHART_SKIN}");
+    dqwszcjg.setOption(option);
+}
+
+function initSjyxl(){
+	var option = null;
+    option = {
+        title:{
+                text:'地区医院时间与费率效率对比',
+                left: 'center'
+            },
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'cross'
+            },
+            formatter : function (params) {
+                if (params[0].data.length > 2) {
+                    return params[0].data[2] + ' :<br/>'
+                    + '费用消耗指数：'+ params[0].data[0] + '<br/>'
+                    + '时间消耗指数：'+ params[0].data[1];
+                }
+                else {
+                    return '费用消耗指数：'+ params[0].data[0] + '<br/>'
+                    + '时间消耗指数：'+ params[0].data[1];
+                }
+            }
+        },
+        grid: {
+            left: '5%',
+            right: '16%',
+            bottom: '6%',
+            containLabel: true
+        },
+        xAxis: {
+            name:'费用消耗指数',
+            type: 'category',
+            axisTick: {
+                    alignWithLabel: true
+                },
+        },
+        yAxis: {
+            name:'时间消耗指数',
+            type: 'value'
+        },
+        series: [{
+            symbol:'triangle',
+            symbolSize: 20,
+            data: [
+                [1.0, 1.04,'测试医院1'], [0.2, 1.52,'测试医院4'], [0.9, 0.58,'测试医院一'], [0.8, 0.81,'测试医院四'],
+                [0.81, 1.04,'测试医院2'], [0.2, 0.58,'测试医院5'], [0.58, 0.24,'测试医院二'], [1.54, 0.8,'测试医院五'],
+                [0.24, 0.84,'测试医院3'], [0.9, 0.82,'测试医院6'], [1.04, 0.68,'测试医院三']
+            ],
+            type: 'scatter'
+        }]
+    };
+    sjyxl = echarts.init(document.getElementById("sjyxl"),"${ECHART_SKIN}");
+    sjyxl.setOption(option);
+}
+
+function initdswltop10(){
+    var option = {
+        title:{
+            text:'地区医院低风险死亡率分布(前10名)',
+            left: 'center'
+        },
+        grid: {
+            left: '5%',
+            right: '16%',
+            bottom: '6%',
+            containLabel: true
+        },
+        xAxis: {
+        	type: 'value',
+            name: '死亡率%'
+         },
+        yAxis: { 
+            type: 'category' ,
+            data: [ '三级医院均值','二级医院均值' ,'医院10','医院9',
+            '医院8','医院7','医院6','医院5','医院4','医院3','医院2','医院1']
+        },
+        series: [
+            {
+                data: [0.1,0.23, 0.34,0.66,0.75,0.83,0.84,0.91,1.07, 1.12,1.35,2.14],
+                type: 'bar',
+                color:'#4169E1',
+                label:{
+                    normal: {
+                        show: true,
+                        position: 'right'
+                    }
+                },
+            }
+            
+        ]
+    };
+    dswltop10 = echarts.init(document.getElementById("dswltop10"),"${ECHART_SKIN}");
+    dswltop10.setOption(option);
+}
+
+function initdyyyczqk(){
+	var option = {
+	        tooltip: {
+	            trigger: 'axis',
+	            axisPointer: {
+	                type: 'cross'
+	            },
+	            formatter : function (params) {
+	                if (params[0].data.length > 2) {
+	                    return params[0].data[2] + ' :<br/>'
+	                    + '  drg组数：'+ params[0].data[0] + '<br/>'
+	                    + '  病例组合指数值：'+ params[0].data[1];
+	                }
+	                else {
+	                    return '  drg组数：'+ params[0].data[0] + '<br/>'
+	                    + '  病例组合指数值：'+ params[0].data[1];
+	                }
+	            }
+	        },
+	        title: {
+	            text: '地区服务广度和技术难度评价',
+	            left: 'center'
+	        },
+	        grid: {
+	            left: '5%',
+	            right: '16%',
+	            bottom: '6%',
+	            containLabel: true
+	        },
+	        xAxis: {
+	            splitLine: {
+	                show: false
+	            },
+	            name: 'DRG组数',
+	            min: 0,
+	            scale: true
+	        },
+	        yAxis: {
+	            name: '病例组合指数值',
+	            min: 0.5,
+	            scale: true
+	        },
+	        series: [{
+	            type: 'effectScatter',
+	            symbolSize: 20,
+	            data: [
+	                [420.2, 1.5,'测试医院31'],
+	                [239.5, 0.55,'测试医院32']
+	            ]
+	        }, {
+	            type: 'scatter',
+	            data: [[161.2, 0.6,'测试医院1'], [167.5, 1.0,'测试医院2'], [459.5, 1.5,'测试医院3'], [557.0, 1.1,'测试医院4'], [555.8, 0.6,'测试医院5'],
+	            [270.0, 0.7,'测试医院6'], [219.1, 0.8,'测试医院7'], [366.0, 0.8,'测试医院8'], [276.2, 0.9,'测试医院9'], [260.2, 0.53,'测试医院10'],
+	            [331.2, 0.69,'测试医院111'], [427.5, 1.06,'测试医院12'], [239.5, 0.55,'测试医院13'], [137.0, 1.34,'测试医院14'], [325.8, 1.4,'测试医院15'],
+	            [410.0, 0.74,'测试医院16'], [319.1, 0.89,'测试医院17'], [126.0, 0.88,'测试医院18'], [436.2, 0.91,'测试医院19'], [320.2, 0.58,'测试医院20'],
+	            [331.2, 1.29,'测试医院21'], [227.5, 1.16,'测试医院22'], [339.5, 1.25,'测试医院23'], [237.0, 1.34,'测试医院24'], [85.8, 1.21,'测试医院25'],
+	            [210.0, 0.79,'测试医院26'], [119.1, 0.89,'测试医院27'], [226.0, 1.33,'测试医院28'], [336.2, 0.98,'测试医院29'], [420.2, 1.5,'测试医院30']
+
+	            ],
+	        }]
+	    };
+    dyyyczqk = echarts.init(document.getElementById("dyyyczqk"),"${ECHART_SKIN}");
+    dyyyczqk.setOption(option);
+}
+
+function initdqfwgd(){
+	var option = {
+	        title: {
+	            text: '地区医院超支情况对比',
+	            left: 'center'
+	        },
+	        tooltip: {
+	            trigger: 'axis',
+	            axisPointer: {
+	                type: 'cross'
+	            },
+	            formatter : function (params) {
+	                if (params[0].data.length > 2) {
+	                    return params[0].data[2] + ' :<br/>'
+	                    + '  超支比例：'+ params[0].data[0] + '<br/>'
+	                    + '  超支金额：'+ params[0].data[1];
+	                }
+	                else {
+	                    return '  超支比例：'+ params[0].data[0] + '<br/>'
+	                    + '  超支金额：'+ params[0].data[1];
+	                }
+	            },
+	        },
+	        grid: {
+                left: '5%',
+                right: '16%',
+                bottom: '6%',
+                containLabel: true
+            },
+	        xAxis: {
+	            splitLine: {
+	                show: false
+	            },
+	            axisLabel: {
+	                show: false
+	            },
+	            axisTick: {
+	                show: false
+	            },
+	            name: '超支比例(%)',
+	            scale: true,
+	            type: 'value'
+	        },
+	        yAxis: {
+	            splitLine: {
+	                show: false
+	            },
+	            axisLabel: {
+	                show: false
+	            },
+	            axisTick: {
+	                show: false
+	            },
+	            name: '超支金额(元)',
+	            scale: true,
+	            type: 'value'
+	        },
+	        series: [{
+	            type: 'scatter',
+	            symbolSize: 10,
+	            data: [
+	                [2.441611, 2.444826,'测试医院10'],
+	                [-2.920969, - 2.917485,'测试医院14']
+	            ]
+	        }, {
+	            type: 'scatter',
+	            data: [[3.2, 2.9,'测试医院1'], [-3.34, -3.27,'测试医院2'], [-0.355083, -0.37,'测试医院3'], [1.8, 1.54,'测试医院4'],
+	            [0, 0,'测试医院5'], [-0.990, -0.880,'测试医院6'], [2.682252, 4.007573,'测试医院7'], [-3.087776, -2.878713,'测试医院8'],
+	            [-1.565978, -1.256985,'测试医院9'], [2.441611, 2.444826,'测试医院10'], [2.659487, 3.111284,'测试医院11'], [-0.459601, -2.618005,'测试医院12'],
+	            [2.17768, 2.387793,'测试医院13'], [-2.920969, - 2.917485,'测试医院14'], [-0.028814, -4.168078,'测试医院15'], [3.625746, 2.119041,'测试医院16'],
+	            [-3.912363, -1.325108,'测试医院17'], [-0.551694, -2.814223,'测试医院18'], [2.855808, 3.483301,'测试医院19'], [3.594448, 2.856651,'测试医院20'],
+	            [1.421993, 2.372646,'测试医院21'], [1.650821, 3.407572,'测试医院22'], [-2.082902, -3.384412,'测试医院23'], [-1.718809, -2.492514,'测试医院24'],
+	            [4.513623, 3.841029,'测试医院25'], [-4.822011, -4.607049,'测试医院26'], [-0.656297, -1.449872,'测试医院27'], [3.919901, 3.439368,'测试医院28'],
+	            [3.287749, 3.918836,'测试医院29'], [-1.576936, -2.977622,'测试医院30'], [3.598143, 1.97597,'测试医院31'], [-3.977329, -4.900932,'测试医院32'],
+	            [-1.79108, -2.184517,'测试医院33'], [3.914654, 3.559303,'测试医院34']
+	            ],
+	        }]
+	    };
+    dqfwgd = echarts.init(document.getElementById("dqfwgd"),"${ECHART_SKIN}");
+    dqfwgd.setOption(option);
+}
+
+$(window).resize(function () {
+	pjzyr.resize();
+	pjfy.resize();
+	dfxswl.resize();
+	gfxswl.resize();
+	lzzryl.resize();
+	yszx.resize();
+	fyzc.resize();
+	dqwszcjg.resize();
+	sjyxl.resize();
+	dswltop10.resize();
+	dyyyczqk.resize();
+	dqfwgd.resize();
+});
+</script>
+
+

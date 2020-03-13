@@ -1,0 +1,568 @@
+<html>
+<head>
+<meta charset="utf-8">
+<title>ECharts china_map</title>
+<script src="./echarts3/jquery-1.10.2.min.js" type="text/javascript"></script>
+<script src="./echarts3/echarts.js" type="text/javascript"></script>
+<script src="./echarts3/macarons.js" type="text/javascript"></script>
+<script src="./echarts3/shine.js" type="text/javascript"></script>
+<script src="./echarts3/mapdata/js/china.js" type="text/javascript"></script>
+<style>
+    html{width:100%;height:100%;margin:0;padding:0;background-color: #FFF;}
+    body{height:100%;margin:0 auto;padding:0;background-color: #FFF;}
+    img{margin-top: 50%;margin-left: 50%;transform: translate(-50%, -50%)}
+    #firstrow{width:100%;height:60vh;background-color: #051b4a;margin-top:0;}
+    #zb{width:49%;height:100%;float:left;background-color:#051b4a;border-right:#FFF 2px solid;}
+    #echart1{width:49%;height:100%;float:left;}
+    #totalPerson{width:100%;height:40vh;margin-top:10px;background-color: #FFF;}
+    #container{width:50%;height:300px;float:left;margin-top:20px;background-color: #FFF;}
+    #areaServcie{width:50%;height:300px;float:left;margin-top:20px;background-color: #FFF;}
+    .zb_div{width:50%;height:33.3%;float:left;}
+    .zb_left{width:30%;height:100%;float:left;}
+    .zb_right{width:70%;height:100%;float:left;}
+    .zb_value{width:100%;height:50%;}
+    .zb_name{height:50%;color: #FFF;font-size: 20px;text-align: center}
+    .span_value{margin:0;padding:0;width:70%;height:100%;float: left;color: #D53F40;font-size: 28px;text-align: center;line-height: 89.91px;}
+    .span_dw{margin:0;padding:0;width:30%;height:100%;float: left;color: #1de9b6;font-size: 32px;text-align: center;line-height: 89.91px;}
+    ::-webkit-scrollbar {width: 10px;height: 10px}
+    ::-webkit-scrollbar-track {background-color: transparent;-webkit-border-radius: 2em;-moz-border-radius: 2em;border-radius: 2em}
+    ::-webkit-scrollbar-thumb {background-color: #0081cc;-webkit-border-radius: 2em;-moz-border-radius: 2em;border-radius: 2em}
+</style>
+</head>
+<body>
+    <div id="firstrow">
+	    <div id="zb">
+	       <div class="zb_div">
+	           <div class="zb_left"><img src="./png/city.png"/></div>
+	           <div class="zb_right">
+	               <div class="zb_value">
+	                   <span class="span_value">30</span>
+	                   <span class="span_dw">个</span>
+	               </div>
+                   <div class="zb_name">DRG试点城市数</div>
+	           </div>
+           </div>
+           <div class="zb_div">
+            <div class="zb_left"><img src="./png/city.png"/></div>
+                <div class="zb_right">
+                    <div class="zb_value">
+                        <span class="span_value">67</span>
+                        <span class="span_dw">%</span>
+                    </div>
+                    <div class="zb_name">医保基金使用效率</div>
+                </div>
+            </div>
+	       <div class="zb_div">
+	           <div class="zb_left"><img src="./png/city.png"/></div>
+               <div class="zb_right">
+                   <div class="zb_value">
+                       <span class="span_value">9</span>
+                       <span class="span_dw">个</span>
+                   </div>
+                   <div class="zb_name">未上报数据城市</div>
+               </div>
+	       </div>
+	       <div class="zb_div">
+	           <div class="zb_left"><img src="./png/city.png"/></div>
+               <div class="zb_right">
+                   <div class="zb_value">
+                       <span class="span_value">6251</span>
+                       <span class="span_dw">家</span>
+                   </div>
+                   <div class="zb_name">DRG试点医院数（三级）</div>
+               </div>
+	       </div>
+	       <div class="zb_div">
+            <div class="zb_left"><img src="./png/city.png"/></div>
+                <div class="zb_right">
+                    <div class="zb_value">
+                        <span class="span_value">21</span>
+                        <span class="span_dw">个</span>
+                    </div>
+                    <div class="zb_name">本期正常上报数据城市</div>
+                </div>
+            </div>
+	       <div class="zb_div">
+	           <div class="zb_left"><img src="./png/city.png"/></div>
+               <div class="zb_right">
+                   <div class="zb_value">
+                       <span class="span_value">25</span>
+                       <span class="span_dw">%</span>
+                   </div>
+                   <div class="zb_name">DRG病例占出院人数比</div>
+               </div>
+	       </div>
+	    </div>
+	    <div id="echart1"></div>
+    </div>
+    <!--总人口柱状图-->
+    <div id="totalPerson"></div>
+    <!--地区医院超支情况对比-->
+    <div id="container"></div>
+    <!--地区服务广度和技术难度评价 -->
+    <div id="areaServcie"></div>
+    
+</body>
+</html>
+<script type="text/javascript">
+
+
+$(function() {
+    var myChart, myChart1, myChart2, myChart3;
+    initChart();
+    zrk();
+    yyczqkdb();
+    initDqgdhjs();
+});
+
+function initChart(){
+    var geoCoordMap = {
+	    '（建设兵团）乌鲁木齐': [87.727348,43.424409],
+	    '乌鲁木齐': [87.527277,43.933477],
+	    '乌海': [106.731405,39.503628],
+	    '哈尔滨': [126.543911,45.809627],
+	    '西宁': [101.785021,36.624312],
+	    '庆阳': [107.642485,35.716154],
+	    '西安': [108.94704,34.349653],
+	    '昆明': [102.832544,24.887321],
+	    '六盘水': [104.832379,26.602452],
+	    '攀枝花': [101.724969,26.589068],
+	    '儋州': [109.58401,19.528235],
+	    '梧州': [111.280344,23.483276],
+	    '佛山': [113.126784,23.027759],
+	    '湘潭': [112.959663,27.837747],
+	    '武汉': [114.307562,30.600954],
+	    '安阳': [114.347761,36.111538],
+	    '青岛': [120.390033,36.071293],
+	    '上饶': [117.945439,28.46215],
+	    '南平': [118.187245,26.647255],
+	    '合肥': [117.229417,31.824614],
+	    '金华': [119.651716,29.084135],
+	    '无锡': [120.319732,31.496347],
+	    '吉林': [126.570582,43.849392],
+	    '沈阳': [123.465346,41.676072],
+	    '临汾': [111.47321,36.107741],
+	    '邯郸': [114.481239,36.60948],
+	    '重庆': [106.554413,29.570504],
+	    '上海': [121.474791,31.231483],
+	    '天津': [117.222464,39.114398],
+	    '北京': [116.401889,39.915794]
+    };
+    var colors = [
+        ["#1DE9B6", "#F46E36", "#04B9FF", "#5DBD32", "#FFC809", "#FB95D5", "#BDA29A", "#6E7074", "#546570", "#C4CCD3"],
+        ["#37A2DA", "#67E0E3", "#32C5E9", "#9FE6B8", "#FFDB5C", "#FF9F7F", "#FB7293", "#E062AE", "#E690D1", "#E7BCF3", "#9D96F5", "#8378EA", "#8378EA"],
+        ["#DD6B66", "#759AA0", "#E69D87", "#8DC1A9", "#EA7E53", "#EEDD78", "#73A373", "#73B9BC", "#7289AB", "#91CA8C", "#F49F42"],
+    ];
+    var colorIndex = 0;
+    
+    var mapData = [
+	    {name: '（建设兵团）乌鲁木齐', value: 119},
+	    {name: '乌鲁木齐', value: 334},
+	    {name: '乌海', value: 123},
+	    {name: '哈尔滨', value: 124},
+	    {name: '西宁', value: 127},
+	    {name: '庆阳', value: 112},
+	    {name: '西安', value: 111},
+	    {name: '昆明', value: 112},
+	    {name: '六盘水', value: 114},
+	    {name: '攀枝花', value: 117},
+	    {name: '儋州', value: 129},
+	    {name: '梧州', value: 121},
+	    {name: '佛山', value: 122},
+	    {name: '湘潭', value: 123},
+	    {name: '武汉', value: 231},
+	    {name: '安阳', value: 132},
+	    {name: '青岛', value: 133},
+	    {name: '上饶', value: 145},
+	    {name: '南平', value: 146},
+	    {name: '合肥', value: 147},
+	    {name: '金华', value: 153},
+	    {name: '无锡', value: 154},
+	    {name: '吉林', value: 155},
+	    {name: '沈阳', value: 156},
+	    {name: '临汾', value: 157},
+	    {name: '邯郸', value: 236},
+	    {name: '重庆', value: 130},
+	    {name: '上海', value: 366},
+	    {name: '天津', value: 277},
+	    {name: '北京', value: 288}
+    ];
+        
+	var convertData = function(data) {
+	    var res = [];
+	    for (var i = 0; i < data.length; i++) {
+	        var geoCoord = geoCoordMap[data[i].name];
+	        if (geoCoord) {
+	            res.push({
+	                name: data[i].name,
+	                value: geoCoord.concat(data[i].value)
+	            });
+	        }
+	    }
+	    return res;
+	};
+       
+    var optionXyMap01 = {
+           timeline: {
+               data: [],
+               axisType: 'category',
+               autoPlay: true,
+               show:false
+
+           },
+           baseOption: {
+               animation: true,
+               animationDuration: 1000,
+               animationEasing: 'cubicInOut',
+               animationDurationUpdate: 1000,
+               animationEasingUpdate: 'cubicInOut',
+               grid: {
+                   right: '1%',
+                   top: '15%',
+                   bottom: '10%',
+                   width: '20%'
+               },
+               geo: {
+                   show: true,
+                   map: 'china',
+                   roam: false,
+                   zoom: 1.1,
+                   center: [105, 36],  //[113.83531246, 34.0267395887],
+                   label: {
+                       emphasis: {
+                           show: false
+                       }
+                   },
+                   itemStyle: {
+                       normal: {
+                           borderColor: 'rgba(147, 235, 248, 1)',
+                           borderWidth: 1,
+                           areaColor: {
+                               type: 'radial',
+                               x: 0.5,
+                               y: 0.5,
+                               r: 0.8,
+                               colorStops: [{
+                                   offset: 0,
+                                   color: 'rgba(147, 235, 248, 0)' // 0% 处的颜色
+                               }, {
+                                   offset: 1,
+                                   color: 'rgba(147, 235, 248, .2)' // 100% 处的颜色
+                               }],
+                               globalCoord: false // 缺省为 false
+                           },
+                           shadowColor: 'rgba(128, 217, 248, 1)',
+                           // shadowColor: 'rgba(255, 255, 255, 1)',
+                           shadowOffsetX: -2,
+                           shadowOffsetY: 2,
+                           shadowBlur: 10
+                       },
+                       emphasis: {
+                           areaColor: '#389BB7',
+                           borderWidth: 0
+                       }
+                   }
+               },
+           },
+           options: []
+
+       };
+    
+       optionXyMap01.options.push({
+           backgroundColor: '#051b4a',
+           tooltip: {
+               trigger: 'item',
+               formatter: function (params, ticket, callback) {
+            	    if(params.seriesType == 'effectScatter'){
+            	    	return params.name + "<br/>" + params.value[2];
+            	    }
+            	}
+           },
+           series: [
+               //地图？
+               {
+                   type: 'map',
+                   map: 'china',
+                   geoIndex: 0,
+                   aspectScale: 0.75, //长宽比
+                   showLegendSymbol: false, // 存在legend时显示
+                   label: {
+                       normal: {
+                           show: false
+                       },
+                       emphasis: {
+                           show: false,
+                           textStyle: {
+                               color: '#fff'
+                           }
+                       }
+                   },
+                   roam: false,
+                   itemStyle: {
+                       normal: {
+                           areaColor: '#031525',
+                           borderColor: '#FFFFFF',
+                       },
+                       emphasis: {
+                           areaColor: '#2B91B7'
+                       }
+                   },
+                   animation: false,
+                   data: mapData
+               },
+               //地图点的动画效果
+               {
+                   //  name: 'Top 5',
+                   type: 'effectScatter',
+                   coordinateSystem: 'geo',
+                   data: convertData(mapData.sort(function(a, b) {
+                       return b.value - a.value;
+                   }).slice(0, 40)),
+                   symbolSize: function(val) {
+                       return val[2] / 30;
+                   },
+                   showEffectOn: 'render',
+                   rippleEffect: {
+                       brushType: 'stroke'
+                   },
+                   hoverAnimation: true,
+                   label: {
+                       normal: {
+                           formatter: '{b}',
+                           position: 'right',
+                           show: true
+                       }
+                   },
+                   itemStyle: {
+                       normal: {
+                           color: colors[0][colorIndex],
+                           shadowBlur: 10,
+                           shadowColor: colors[0][colorIndex]
+                       }
+                   },
+                   zlevel: 1
+               }
+           ]
+       });
+          
+       myChart = echarts.init(document.getElementById("echart1"), "${ECHART_SKIN}");
+       myChart.setOption(optionXyMap01);
+}
+
+function initDqgdhjs(){
+    var option = {
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'cross'
+            },
+            formatter : function (params) {
+                if (params[0].data.length > 2) {
+                    return params[0].data[2] + ' :<br/>'
+                    + '  drg组数：'+ params[0].data[0] + '<br/>'
+                    + '  病例组合指数值：'+ params[0].data[1];
+                }
+                else {
+                    return '  drg组数：'+ params[0].data[0] + '<br/>'
+                    + '  病例组合指数值：'+ params[0].data[1];
+                }
+            }
+        },
+        title: {
+            text: '地区服务广度和技术难度评价',
+            left: 'center'
+        },
+        xAxis: {
+            splitLine: {
+                show: false
+            },
+            name: 'DRG组数',
+            min: 0,
+            scale: true
+        },
+        yAxis: {
+            name: '病例组合指数值',
+            min: 0.5,
+            scale: true
+        },
+        series: [{
+            type: 'effectScatter',
+            symbolSize: 20,
+            data: [
+                [420.2, 1.5,'北京'],
+                [239.5, 0.55,'佛山']
+            ]
+        }, {
+            type: 'scatter',
+            data: [[161.2, 0.6,'建设兵团乌鲁木齐'], [167.5, 1.0,'乌鲁木齐'], [459.5, 1.5,'乌海'], [557.0, 1.1,'哈尔滨'], [555.8, 0.6,'西宁'],
+            [270.0, 0.7,'庆阳'], [219.1, 0.8,'西安'], [366.0, 0.8,'昆明'], [276.2, 0.9,'六盘水'], [260.2, 0.53,'攀枝花'],
+            [331.2, 0.69,'儋州'], [427.5, 1.06,'梧州'], [239.5, 0.55,'佛山'], [137.0, 1.34,'湘潭'], [325.8, 1.4,'武汉'],
+            [410.0, 0.74,'安阳'], [319.1, 0.89,'青岛'], [126.0, 0.88,'上饶'], [436.2, 0.91,'南平'], [320.2, 0.58,'合肥'],
+            [331.2, 1.29,'金华'], [227.5, 1.16,'无锡'], [339.5, 1.25,'吉林'], [237.0, 1.34,'沈阳'], [85.8, 1.21,'临汾'],
+            [210.0, 0.79,'邯郸'], [119.1, 0.89,'重庆'], [226.0, 1.33,'上海'], [336.2, 0.98,'天津'], [420.2, 1.5,'北京']
+
+            ],
+        }]
+    };
+    myChart1 = echarts.init(document.getElementById("areaServcie"),"${ECHART_SKIN}");
+    myChart1.setOption(option);
+}
+
+function yyczqkdb(){
+    var option = {
+        title: {
+            text: '地区医院超支情况对比',
+            left: 'center'
+        },
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'cross'
+            },
+            formatter : function (params) {
+                if (params[0].data.length > 2) {
+                    return params[0].data[2] + ' :<br/>'
+                    + '  超支比例：'+ params[0].data[0] + '<br/>'
+                    + '  超支金额：'+ params[0].data[1];
+                }
+                else {
+                    return '  超支比例：'+ params[0].data[0] + '<br/>'
+                    + '  超支金额：'+ params[0].data[1];
+                }
+            },
+        },
+        xAxis: {
+            splitLine: {
+                show: false
+            },
+            axisLabel: {
+                show: false
+            },
+            axisTick: {
+                show: false
+            },
+            name: '超支比例(%)',
+            nameRotate: 270,
+            scale: true,
+            type: 'value'
+        },
+        yAxis: {
+            splitLine: {
+                show: false
+            },
+            axisLabel: {
+                show: false
+            },
+            axisTick: {
+                show: false
+            },
+            name: '超支金额(元)',
+            scale: true,
+            type: 'value'
+        },
+        series: [{
+            type: 'scatter',
+            symbolSize: 10,
+            data: [
+                [2.441611, 2.444826,'测试医院10'],
+                [-2.920969, - 2.917485,'测试医院14']
+            ]
+        }, {
+            type: 'scatter',
+            data: [[3.2, 2.9,'测试医院1'], [-3.34, -3.27,'测试医院2'], [-0.355083, -0.37,'测试医院3'], [1.8, 1.54,'测试医院4'],
+            [0, 0,'测试医院5'], [-0.990, -0.880,'测试医院6'], [2.682252, 4.007573,'测试医院7'], [-3.087776, -2.878713,'测试医院8'],
+            [-1.565978, -1.256985,'测试医院9'], [2.441611, 2.444826,'测试医院10'], [2.659487, 3.111284,'测试医院11'], [-0.459601, -2.618005,'测试医院12'],
+            [2.17768, 2.387793,'测试医院13'], [-2.920969, - 2.917485,'测试医院14'], [-0.028814, -4.168078,'测试医院15'], [3.625746, 2.119041,'测试医院16'],
+            [-3.912363, -1.325108,'测试医院17'], [-0.551694, -2.814223,'测试医院18'], [2.855808, 3.483301,'测试医院19'], [3.594448, 2.856651,'测试医院20'],
+            [1.421993, 2.372646,'测试医院21'], [1.650821, 3.407572,'测试医院22'], [-2.082902, -3.384412,'测试医院23'], [-1.718809, -2.492514,'测试医院24'],
+            [4.513623, 3.841029,'测试医院25'], [-4.822011, -4.607049,'测试医院26'], [-0.656297, -1.449872,'测试医院27'], [3.919901, 3.439368,'测试医院28'],
+            [3.287749, 3.918836,'测试医院29'], [-1.576936, -2.977622,'测试医院30'], [3.598143, 1.97597,'测试医院31'], [-3.977329, -4.900932,'测试医院32'],
+            [-1.79108, -2.184517,'测试医院33'], [3.914654, 3.559303,'测试医院34']
+            ],
+        }]
+    };
+    myChart2 = echarts.init(document.getElementById("container"),"${ECHART_SKIN}");
+    myChart2.setOption(option);
+}
+
+function zrk(){
+    var option = {
+        color: ['#3398DB'],
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {            // 坐标轴指示器，坐标轴触发有效
+                type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+            }
+        },
+       
+        xAxis: [
+            {
+                type: 'category',
+                data: ['北京', '天津', '上海', '重庆', '邯郸', '临汾', '沈阳','吉林',
+                '无锡','安阳','青岛','上饶','南平','合肥','金华','湘潭','武汉',
+                '西宁','庆阳','西安','昆明','六盘水','攀枝花','儋州','梧州',
+                '佛山','湘潭','武汉','乌海','哈尔滨','乌鲁木齐','乌鲁木齐建设兵团'],
+                axisTick: {
+                    alignWithLabel: true
+                },
+                axisLabel:{
+                    interval:0,
+                    rotate:-90,
+                    formatter:function(params) {
+                        var newParamsName = "";
+                        var paramsNameNumber = params.length;
+                        var provideNumber = 4;  //一行显示几个字
+                        var rowNumber = Math.ceil(paramsNameNumber / provideNumber);
+                        if (paramsNameNumber > provideNumber) {
+                            for (var p = 0; p < rowNumber; p++) {
+                                var tempStr = "";
+                                var start = p * provideNumber;
+                                var end = start + provideNumber;
+                                if (p == rowNumber - 1) {
+                                    tempStr = params.substring(start, paramsNameNumber);
+                                } else {
+                                    tempStr = params.substring(start, end) + "\n";
+                                }
+                                newParamsName += tempStr;
+                            }
+
+                        } else {
+                            newParamsName = params;
+                        }
+                        return newParamsName
+                    },
+                }
+            }
+        ],
+        yAxis: [
+            {
+                name:'总人口(万人)',
+                type: 'value'
+            }
+        ],
+        //grid:{//直角坐标系内绘图网格
+        //          bottom:"40%" //
+        //},
+        series: [
+            {
+                name: '',
+                type: 'bar',
+                barWidth: '60%',
+                data: [97,90,88,85,83,82,81,80,79,78,77,76,75,74,73,72,71,70,69,68,
+                67,66,65,64,63,62,61,60,59,58,50,38]
+            }
+        ]
+    };
+    myChart3 = echarts.init(document.getElementById("totalPerson"),"${ECHART_SKIN}");
+    myChart3.setOption(option);
+}
+
+$(window).resize(function () {
+    myChart.resize();
+    myChart1.resize();
+    myChart2.resize();
+    myChart3.resize();
+});
+</script>
+
+
